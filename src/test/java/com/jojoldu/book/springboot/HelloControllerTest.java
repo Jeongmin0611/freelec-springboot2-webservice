@@ -1,6 +1,6 @@
-package com.jojoldu.book.springboot.web;
+package com.jojoldu.book.springboot;
 
-import com.jojoldu.book.springboot.web.web.HelloController;
+import com.jojoldu.book.springboot.web.HelloController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.is;
 
 @RunWith(SpringRunner.class)//1.테스트를 진행할 때 junit에 내장된 실행자 외에 다른 실해자를 실행시킴.
 //여기서는 SpringRunner라는 스프링 실행자를 사용, 스프링부트테스트와 junit사이에 연결자 역할을 함.
-@WebMvcTest(controllers = HelloController.class)
+@WebMvcTest(controllers = HelloController.class,secure = false)
 //1.여러 스프링테스트 어노테이션 중 web(Spring mvc)에 집중할 수 있는 어노테이션
 //2.선언할 경우, @Controller,@ControllerAdvice 사용가능 | 단, @service, @Repositor는 사용 불가
 //3.여기서는 controller만 사용하기 때문에 선언.
