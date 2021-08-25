@@ -1,0 +1,29 @@
+var main ={
+    init : ()=>{
+        let _this = this; //let, const 는 block 스코프라 같은 중괄호 안에서만 인식됨.
+        $('#btn-save').on('click',()=>{
+            _this.save();
+        });
+    },
+    save : ()=>{
+        var data = {//var는 스코프 상관없이 다 됨, 중복선언도 가능.
+            title : $("#title").val(),
+            author : $("#author").val(),
+            content : $("#content").val()
+        }
+
+        $.ajax({
+            type:'POST',
+            url: 'api/v1/posts',
+            dataType: 'json',
+            contentType:'application/json; charset=utf-8',
+            data: JSON.stringify(data)
+        }).done(()=>{
+            alert('글이 등록되었습니다.');
+            window.location.href='/';//메인페이지로 이동
+        }).fail((error)=>{
+            alert(JSON.stringify(error));
+        });
+    }
+
+}

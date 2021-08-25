@@ -1,0 +1,20 @@
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!--index.js 추가-->
+<script src="/js/app/index.js"></script>
+</body>
+</html>
+
+<!--
+ 페이지 로딩속도를 높이기 위해 css는 header, js는 footer에 위치.
+ HTML은 위에서 아래로 실행되기 때문에 header가 다 실행되고 footer가 실행된다.
+ 즉, head가 다 불러지지 않으면 페이지가 백지 상태로 노출된다.
+ 특히 js의 용량이 크면 클수록 body 부분의 실행이 늦어지기 때문에 body 하단에 두어 다 그려진 뒤에 호출하는 게 좋다.
+ 반대로 css에는 화면을 그리는 역할로 head에 위차하는게 좋다.
+
+ 추가로, bootstrap.js 는 제이쿼리가 꼭 필요하므로 부트스트랩보다 순서가 위에 놓는다.
+
+ 스프링 부트는 기본적으로 src/main/resources/static 에 위치한 자바스크립트, CSS, 이미지 등 정적 파일들은
+ URL에서 /로 설정된다. ps) "/" = (src/main/resources/static)
+-->
