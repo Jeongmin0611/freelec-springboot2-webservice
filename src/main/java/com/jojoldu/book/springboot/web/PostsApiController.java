@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-public class PostsApiController {
+public class PostsApiController { // 해당 클래스의 용도 : 클라이언트와 통신하기 위한 컨트롤러
 
     private final PostsService postsService;
     //@autowired보다 생성자 주입 방식을 권장
@@ -31,5 +31,12 @@ public class PostsApiController {
     public PostsResponseDto findById(@PathVariable Long id){
         return postsService.findById(id);
     }
+
+    @DeleteMapping("/api/v1/posts/{id}")
+    public Long delete(@PathVariable Long id){
+        postsService.delete(id);
+        return id;
+    }
+
 
 }

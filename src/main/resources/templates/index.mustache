@@ -22,7 +22,7 @@
         {{#posts}}<!--posts라는 List를 순회합니다. JAVA에 FOR문이랑 같음.-->
             <tr>
                 <td>{{id}}</td><!--list에서 뽑아낸 객체의 변수를 사용-->
-                <td>{{title}}</td>
+                <td><a href="/posts/update/{{id}}">{{title}}</a></td>
                 <td>{{author}}</td>
                 <td>{{modifiedDate}}</td>
             </tr>

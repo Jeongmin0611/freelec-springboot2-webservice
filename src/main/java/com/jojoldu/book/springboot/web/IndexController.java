@@ -1,15 +1,16 @@
 package com.jojoldu.book.springboot.web;
 
 import com.jojoldu.book.springboot.serivce.posts.PostsService;
+import com.jojoldu.book.springboot.web.dto.PostsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RequiredArgsConstructor
 @Controller
-public class IndexController {
-
+public class IndexController {//해당 클래스의 용도 : 화면 url을 연결 시킬 controller.
     private final PostsService postsService;
 
     @GetMapping("/")
@@ -27,5 +28,12 @@ public class IndexController {
     @GetMapping("/posts/save")
     public String postsSave(){
         return "posts-save"; // /posts/save 를 호출하면 posts-save.mustache 파일을 호출하는 메소드
+    }
+
+    @GetMapping("posts/update/{id}")
+    public String postUpdate(@PathVariable Long id, Model model){
+        PostsResponseDto dto = postsService.findById(id);
+        model.addAttribute("post",dto);
+        return "posts-update";
     }
 }
