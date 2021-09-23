@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.logging.Logger;
 
 @Getter
 @NoArgsConstructor
@@ -36,6 +37,7 @@ public class User extends BaseTimeEntity {
         this.name=name;
         this.email=email;
         this.picture=picture;
+        this.role=role;
     }
 
     public User update(String name, String picture){
@@ -46,6 +48,6 @@ public class User extends BaseTimeEntity {
     }
 
     public String getRoleKey(){
-        return this.getRoleKey();
+        return this.role.getKey();
     }
 }

@@ -5,6 +5,17 @@
     <div class="row">
         <div class="col-md-6">
             <a href="/posts/save" role="button" class="btn btn-primary">글 등록</a>
+            {{#userName}}<!--머스테치는 if 문을 제공하지 않고 true/false 여부만 구분, 항상 최종값을 넘겨줘야 함.-->
+                Logged in as: <span id="user">{{userName}}</span>
+                <a href="/logout" class="btn btn-into active" role="button">Logout</a>
+                <!--/logout 스프링 시큐리티에서 기본적으로 제공하는 로그아웃 url, 로그아웃 컨트롤러를 직접 구현x-->
+            {{/userName}}
+            {{^userName}}<!-- ^ : 해당 값이 존재하지 않으면 -->
+                <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">
+                    <!--스프링 시큐리티에서 기본적으로 제공하는 로그인 url, 로그인 컨트롤러를 직접 구현x-->
+                    Google Login
+                </a>
+            {{/userName}}
         </div>
     </div>
     <br>

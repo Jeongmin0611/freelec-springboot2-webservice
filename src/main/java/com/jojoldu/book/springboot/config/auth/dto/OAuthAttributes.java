@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Getter
 public class OAuthAttributes {
@@ -43,6 +44,7 @@ public class OAuthAttributes {
     //of() 에서 받은 정보들을 실제로 OAuthAttributes로 생성하는 메소드
 
     public User toEntity(){
+        Logger.getLogger("aaaaaaaaaaaaaaaaaaaaaaaaaaa");
         return User.builder()
                 .name(name)
                 .email(email)

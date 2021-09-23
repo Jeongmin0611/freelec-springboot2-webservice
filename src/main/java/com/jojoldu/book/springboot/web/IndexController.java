@@ -1,5 +1,6 @@
 package com.jojoldu.book.springboot.web;
 
+import com.jojoldu.book.springboot.config.auth.dto.SessionUser;
 import com.jojoldu.book.springboot.serivce.posts.PostsService;
 import com.jojoldu.book.springboot.web.dto.PostsResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -8,15 +9,26 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.servlet.http.HttpSession;
+import java.util.logging.Logger;
+
 @RequiredArgsConstructor
 @Controller
 public class IndexController {//해당 클래스의 용도 : 화면 url을 연결 시킬 controller.
+
     private final PostsService postsService;
+    private final HttpSession httpSession;
 
     @GetMapping("/")
     public String index(Model model){
         model.addAttribute("posts",postsService.findAllDesc());
         //model ==> 서버 템플릿 엔진 에서 사용할 수 있는 객체를 저장할 수 있습니다.
+
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        //customOAuth2UserService에서 로그인 성공 시 세션에 sessionUser를 저장하도록 구성.
+        //로그인 성공 시 session에서 user 정보 가져오기.
+        Logger.getLogger("aaaaaaaaaaaa=====> "+user.getName());
+        if (user != null) model.addAttribute("userName",user.getName());
         return "index";
     }
 
