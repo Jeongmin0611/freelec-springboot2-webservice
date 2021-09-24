@@ -12,8 +12,17 @@
             {{/userName}}
             {{^userName}}<!-- ^ : 해당 값이 존재하지 않으면 -->
                 <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">
-                    <!--스프링 시큐리티에서 기본적으로 제공하는 로그인 url, 로그인 컨트롤러를 직접 구현x-->
+                    <!--
+                        스프링 시큐리티에서 기본적으로 제공하는 로그인 url, 로그인 컨트롤러를 직접 구현x
+                    -->
                     Google Login
+                </a>
+                <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">
+                    <!--
+                        네이버 로그인 URL은 properties파일 에 등록한 redirect-uri값에 맞춰자동으로 등록된다.
+                        /oauth2/authorization/ 까지 고정이고 마지막 path인  각 소셜 로그인 코드를 사용하면 됨.
+                    -->
+                    Naver Login
                 </a>
             {{/userName}}
         </div>

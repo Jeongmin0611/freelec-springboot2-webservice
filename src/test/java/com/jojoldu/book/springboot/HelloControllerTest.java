@@ -1,10 +1,16 @@
 package com.jojoldu.book.springboot;
 
+import com.jojoldu.book.springboot.config.auth.SecurityConfig;
 import com.jojoldu.book.springboot.web.HelloController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -16,9 +22,11 @@ import static org.hamcrest.Matchers.is;
 
 @RunWith(SpringRunner.class)//1.테스트를 진행할 때 junit에 내장된 실행자 외에 다른 실해자를 실행시킴.
 //여기서는 SpringRunner라는 스프링 실행자를 사용, 스프링부트테스트와 junit사이에 연결자 역할을 함.
-@WebMvcTest(controllers = HelloController.class,secure = false)
+@WebMvcTest(controllers = HelloController.class, excludeFilters = {
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)
+})
 //1.여러 스프링테스트 어노테이션 중 web(Spring mvc)에 집중할 수 있는 어노테이션
-//2.선언할 경우, @Controller,@ControllerAdvice 사용가능 | 단, @service, @Repositor는 사용 불가
+//2.선언할 경우, @Controller,@ControllerAdvice 사용가능 | 단, @service, @Repository는 사용 불가
 //3.여기서는 controller만 사용하기 때문에 선언.
 public class HelloControllerTest {
 
@@ -26,8 +34,9 @@ public class HelloControllerTest {
     //1. 스프링이 관리하는 bean 주입
     //2. 웹 API를 테스트 할 때 사용, 이 클래스를 통해 HTTP메소드(GET, POST..)를 테스트 해볼수 있음.
 
+    @WithMockUser(roles="USER")
     @Test
-    public void helloReturn() throws Exception {
+    public void hello가_리턴된다() throws Exception {
         String hello = "hello";
 
         mvc.perform(get("/hello"))
@@ -42,8 +51,9 @@ public class HelloControllerTest {
         //.andExpect(content().string(hello)); -응답 본문의 내용을 검증합니다.(hello가 맞는지 검증..)
     }
 
+    @WithMockUser(roles="USER")
     @Test
-    public void helloDtoReturn() throws Exception {
+    public void helloDto가_리턴된다() throws Exception {
         String name = "hello";
         int amount = 1000;
 

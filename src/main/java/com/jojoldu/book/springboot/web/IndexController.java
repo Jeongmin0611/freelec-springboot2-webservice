@@ -1,5 +1,6 @@
 package com.jojoldu.book.springboot.web;
 
+import com.jojoldu.book.springboot.config.auth.LoginUser;
 import com.jojoldu.book.springboot.config.auth.dto.SessionUser;
 import com.jojoldu.book.springboot.serivce.posts.PostsService;
 import com.jojoldu.book.springboot.web.dto.PostsResponseDto;
@@ -20,14 +21,17 @@ public class IndexController {//해당 클래스의 용도 : 화면 url을 연�
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model){
+    public String index(Model model, @LoginUser SessionUser user){
+        //이제 어느 컨트롤러든지 @LoginUser만 사용하면 세션정보를 가져올 수 있다.
+
         model.addAttribute("posts",postsService.findAllDesc());
         //model ==> 서버 템플릿 엔진 에서 사용할 수 있는 객체를 저장할 수 있습니다.
 
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+
+        //SessionUser user = (SessionUser) httpSession.getAttribute("user");
         //customOAuth2UserService에서 로그인 성공 시 세션에 sessionUser를 저장하도록 구성.
         //로그인 성공 시 session에서 user 정보 가져오기.
-        Logger.getLogger("aaaaaaaaaaaa=====> "+user.getName());
+
         if (user != null) model.addAttribute("userName",user.getName());
         return "index";
     }

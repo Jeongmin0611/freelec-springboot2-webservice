@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RequiredArgsConstructor
 @Service
@@ -31,7 +33,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2UserService<OAuth2UserRequest,OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User= delegate.loadUser(userRequest);
 
-        String registerationId = userRequest.getClientRegistration().getClientId();
+        String registerationId = userRequest.getClientRegistration().getRegistrationId();
         //현재 로그인 중인 서비스를 구분하는 코드 지금은 구글만 사용하는 불필요한 값이지만, 추후에 네이버 로그인을 연동하면 구글 로그인인지,
         // 네이버 로그인인지 구분하기 위해 사용
 
@@ -62,7 +64,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         User user = userRepository.findByEmail(attributes.getEmail())
                         .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
                                 .orElse(attributes.toEntity());
-
         return userRepository.save(user);
     }
 }

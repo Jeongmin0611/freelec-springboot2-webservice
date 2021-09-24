@@ -1,11 +1,13 @@
 package com.jojoldu.book.springboot.config.auth.dto;
 
+import com.jojoldu.book.springboot.config.auth.CustomOAuth2UserService;
 import com.jojoldu.book.springboot.domain.user.Role;
 import com.jojoldu.book.springboot.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Getter
@@ -28,6 +30,11 @@ public class OAuthAttributes {
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName,
                                   Map<String,Object> attributes){
+        Logger logger = Logger.getLogger(OAuthAttributes.class.getName());
+        logger.log(Level.INFO,registrationId);
+        if("naver".equals(registrationId)){
+            return ofNaver("id",attributes);
+        }
         return ofGoogle(userNameAttributeName,attributes);
     }
     //OAuth2User에서 반환하는 사용자 정보를 OAuthAttributes로 변환하기 위해 정보들을 받는 메소드
@@ -44,7 +51,6 @@ public class OAuthAttributes {
     //of() 에서 받은 정보들을 실제로 OAuthAttributes로 생성하는 메소드
 
     public User toEntity(){
-        Logger.getLogger("aaaaaaaaaaaaaaaaaaaaaaaaaaa");
         return User.builder()
                 .name(name)
                 .email(email)
@@ -56,4 +62,16 @@ public class OAuthAttributes {
     //OAuthAttributes에서 엔티티를 생성하는 시점은 처음 가입할 때입니다.
     //가입할 때의 기본 권한을 GUEST로 주기 위해서 ROLE 빌더값에는 Role.GUEST를 사용.
 
+    private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+        Logger logger = Logger.getLogger(OAuthAttributes.class.getName());
+        logger.log(Level.INFO,(String) response.get("email"));
+        return OAuthAttributes.builder()
+                .name((String) response.get("name"))
+                .email((String) response.get("email"))
+                .picture((String) response.get("profile_image"))
+                .attributes(response)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
+    }
 }
